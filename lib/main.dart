@@ -1,6 +1,8 @@
 //Lunardelli Nicola 5^B IA 13-01-20222
 import 'package:flutter/material.dart';
+import 'package:myp/infoLista.dart';
 import 'SecondScreen.dart';
+import 'InfoSviluppatore.dart';
 import 'model/todo.dart';
 
 void main() => runApp(MyApp());
@@ -32,19 +34,20 @@ class MyApp extends StatelessWidget {
       home: MyHomePage(title: 'Lunardelli App'),
       // Define here the routes for the other app screens:
       routes: {
+        '/infoLista' : (ctx) => InfoLista(),
         '/secondscreen' : (ctx) => SecondScreen(),
+        '/infoSviluppatore' : (ctx) => InfoSviluppatore(),
       } ,
     );
   }
 }
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
-
   // Simil overloading:
   MyHomePage.myconstr({required this.title});
   // final boh = MyHomePage.myconstr(title: 'Pippo',);
-  
   final String title;
+  final todos = 0;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -59,13 +62,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var _index = 0;
-  final Controller = TextEditingController();
-
-  void dispose(){
-    Controller.dispose();
-    super.dispose();
-  }
-
+  
   var _displayMessages = [
       'Hello World',
       'Ciao Mondo',
@@ -103,27 +100,27 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           title: Text(widget.title),
           actions: <Widget>[
-            Padding(padding: EdgeInsets.only(right: 15),
-            child: FloatingActionButton(
-              backgroundColor: Colors.amber,
-              onPressed: (){ 
+            Padding(padding: EdgeInsets.only(right: 30.0),
+            child: GestureDetector(
+              onTap: () {
                 Navigator.of(context).pushNamed(
-                '/secondscreen',
-                arguments: {
-                  'title': "Inserimento nuove liste",
-                  'controller': Controller
-                }
-              );
-            },
-              child: const Text(
-                "NEW LIST",
-                textAlign: TextAlign.center,
-                ),
-            ),
+                  '/infoSviluppatore',
+                  arguments: {
+                  'title': "Info sullo sviluppatore",
+                  'text': 'The current index value is $_index'
+                });
+              },
+              child: Icon(
+                Icons.info_outline,
+                color: Colors.white.withOpacity(0.75),
+                size: 26.0,
+             	),
+            )
             )
           ],
         ),
-        body: ListView.builder(
+        body: Center(
+          child: ListView.builder(
           itemCount: todos.length,
           itemBuilder: (context, index) {
           return ListTile(
@@ -131,32 +128,34 @@ class _MyHomePageState extends State<MyHomePage> {
             // When a user taps the ListTile, navigate to the DetailScreen.
             // Notice that you're not only creating a DetailScreen, you're
             // also passing the current todo through to it.
-            onTap: () => showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => 
-        AlertDialog(
-          title: const Text('AlertDialog Lunardelli'),
-          content: Text(todos[index].title),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'Cancel'),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'OK'),
-              child: const Text('OK'),
-            ),
-            TextButton(
-              onPressed: ()=> Navigator.pop(context, 'Delete'),
-              child: const Text('Delete'),
-              
-            ),
-          ],
-        ),
-      ),
+            onTap: () {
+                Navigator.of(context).pushNamed(
+                  '/infoLista',
+                  arguments: {
+                  'title': "Inserimento nuove liste",
+                  'text': 'The current index value is $_index'
+                });
+              },
     );
   },
   ),  
-    );
+  ),
+  floatingActionButton: FloatingActionButton (
+    backgroundColor: Colors.amber,
+    onPressed: (){ 
+      Navigator.of(context).pushNamed(
+        '/secondscreen',
+        arguments: {
+          'title': "Inserimento nuove liste",
+          'text': 'The current index value is $_index'
+        }
+      );
+    },
+    child: const Text(
+                "NEW LIST",
+                textAlign: TextAlign.center,
+                ),
+  )
+  );
   }
 }

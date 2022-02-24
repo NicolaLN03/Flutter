@@ -8,11 +8,20 @@ class SecondScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final myController = TextEditingController();
     // Get parameters from the previous screen:
     final routeArgs = ModalRoute.of(context)!.settings.arguments as Map<String, String>; //MyClass;
     // Get title and text parameters:
     final title = routeArgs['title'].toString();
-    final controller = routeArgs['controller'];
+    final texttoshow = routeArgs['text'].toString();
+
+  /*@override
+  void dispose() {
+   // Clean up the controller when the widget is disposed.
+   myController.dispose();
+   super.dispose();
+}*/
+
 
     // Use the Todo to create the UI.
     return Scaffold(
@@ -21,14 +30,13 @@ class SecondScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          TextField(
-            controller: controller,
+          const TextField(
             decoration: InputDecoration(
             border: OutlineInputBorder(),
             labelText: 'Titolo',
           )
           ),
-          TextField(
+          const TextField(
             decoration: InputDecoration(
             border: OutlineInputBorder(),
             labelText: 'Descrizione',
