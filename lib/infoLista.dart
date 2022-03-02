@@ -15,6 +15,21 @@ class InfoLista extends StatelessWidget {
     // Get title and text parameters:
     final todo = routeArgs['todo'] as Todo;
     // Use the Todo to create the UI.
+
+    void deleteElement(BuildContext context) {
+      deleteSelectedTodo(todo);
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyApp()));
+      final snackBar = SnackBar(
+          content: Text(todo.title.toString() + ' deleted'),
+          action: SnackBarAction(
+            label: 'Ok',
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(todo.title),
@@ -23,11 +38,24 @@ class InfoLista extends StatelessWidget {
         child: Column(
           children: <Widget>[
             TextDisplay(todo.description),
+            GestureDetector(
+              onTap: () async =>{
+                deleteElement(context)
+              },
+              child: Icon(
+                Icons.delete,
+                color: Colors.black.withOpacity(0.75),
+                size: 26.0,
+             	),
+            )
           ],
+
         )
         
       )  
     
     );
   }
+
+  
 }

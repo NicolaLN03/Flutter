@@ -5,8 +5,11 @@ import 'SecondScreen.dart';
 import 'InfoSviluppatore.dart';
 import 'todo.dart';
 
+final List<Todo> todos = [];
+void deleteSelectedTodo(Todo t) async {
+  todos.remove(t);
+}
 void main() => runApp(MyApp());
-
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -62,7 +65,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var _index = 0;
-  final List<Todo> todos = [];
+  
+  
+
   
 void viewSecondScreen(BuildContext context) async{
 
@@ -86,7 +91,8 @@ void viewSecondScreen(BuildContext context) async{
   });
 }
 
-void _deleteItem(Todo t){
+//DELETE PER ALERT DIALOG
+/*void _deleteItem(Todo t){
   setState(() {
     todos.remove(t);
   });
@@ -98,9 +104,9 @@ void _deleteItem(Todo t){
         onPressed: () =>
         ScaffoldMessenger.of(context).hideCurrentSnackBar(),
       ),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackbar);
-}
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackbar);
+}*/
 
 
   @override
@@ -132,7 +138,9 @@ void _deleteItem(Todo t){
           itemBuilder: (context, index) {
           return ListTile(
             title: Text(todos[index].title),
-            onTap: () => showDialog<String>(
+            onTap: () 
+            //UTILIZZO DELL'ALERT DIALOG INVECE CHE DI UNA SCHERMATA 
+            /*=> showDialog<String>(
               context: context, 
               builder: (BuildContext context) => 
               AlertDialog(
@@ -156,14 +164,14 @@ void _deleteItem(Todo t){
                   ),
                 ],
               )
-              )
-            /*{
+              )*/
+            {
                 Navigator.of(context).pushNamed(
                   '/infoLista',
                   arguments: {
                   'todo': todos[index],
                 });
-              },*/
+              },
     );
   },
   ),  
